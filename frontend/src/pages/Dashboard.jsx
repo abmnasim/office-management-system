@@ -1,7 +1,13 @@
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   return (
-    <div>Dashboard</div>
+    <div>
+        <h1>Dashboard</h1>
+        <button onClick={() => {dispatch(logout())}}>Logout</button>
+    </div>
   )
 }
 
