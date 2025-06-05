@@ -1,5 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { isAuthenticated, login as loginAPI, logout as logoutAPI, resendOtp as resendOtpAPI, verifyOtp as verifyOtpAPI } from '../../services/authAPI';
+import { isAuthenticated, login as loginAPI, logout as logoutAPI, register as registerAPI, resendOtp as resendOtpAPI, verifyOtp as verifyOtpAPI } from '../../services/authAPI';
+
+const register = createAsyncThunk('auth/register', async ({ name, email, password}, thunkAPI) => {
+    const response = await registerAPI(name, email, password);
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    } else {
+        return thunkAPI.rejectWithValue(data.message);
+    }
+})
 
 const login = createAsyncThunk('auth/login', async ({email, password}, thunkAPI) => {
     const response = await loginAPI(email, password);
@@ -74,6 +84,23 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(register.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.requiresOTP = !action.payload.verified;
+                state.email = action.payload.email || ""
+                state.otpSent = state.requiresOTP;
+                state.isLoggedIn = true;
+                state.error = null;
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.status = "failed";
+                state.requiresOTP = !action.payload.verified;
+                state.email = action.payload.email || "";
+                state.error = action.payload;
+            })
             .addCase(login.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -154,5 +181,5 @@ const authSlice = createSlice({
 })
 
 export const { setCredentials, } = authSlice.actions; 
-export { checkAuth, login, logout, resendOtp, verifyOtp };
+export { checkAuth, login, logout, register, resendOtp, verifyOtp };
 export default authSlice.reducer;

@@ -68,7 +68,9 @@ const register = async (req, res) => {
     storeUser(newUser);
 
     res.status(201).json({
-        message: "OTP sent to your email"
+        message: "OTP sent to your email",
+        verified: false,
+        email: newUser.email
     });
 }
 

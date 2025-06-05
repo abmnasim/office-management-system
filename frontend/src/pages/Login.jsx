@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, resendOtp, verifyOtp } from "../features/auth/authSlice";
 
@@ -8,7 +8,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef([]);
-  const { user, requiresOTP, status, email, error } = useSelector((state) => state.auth);
+  const { user, requiresOTP, email, status, error } = useSelector((state) => state.auth);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -16,7 +16,11 @@ const Login = () => {
   });
 
   const handleLogin = async () => {
-   dispatch(login({email: form.email, password: form.password}));
+    if (!form.email || !form.password) {
+      toast.error("Email and Password are required");
+      return;
+    }
+    dispatch(login({email: form.email, password: form.password}));
   }
 
   useEffect(() => {
@@ -51,12 +55,23 @@ const Login = () => {
   const handleVerify = () => {
     const otp = inputRef.current.map(input => input.value).join("");
     setForm(prev => ({ ...prev, otp }));
-    dispatch(verifyOtp({ email: form.email, otp }));
+    dispatch(verifyOtp({ email: form.email || email, otp }));
   }
 
   const handleResendOtp = () => {
-    dispatch(resendOtp(form.email));
+    dispatch(resendOtp(form.email || email));
   }
+
+  useEffect(() => {
+    if (error || status === "failed") {
+      toast.error(error);
+    }
+
+    if (status === "sended") {
+      toast.success("OTP sent to your email");
+    }
+
+  }, [error, status]);
 
   useEffect(() => {
     if (error || status === "failed") {
@@ -95,6 +110,11 @@ const Login = () => {
               </div>
               ) : "Verify"}
             </button>
+            {status === "sending" && (
+              <div className="text-center text-indigo-300 mt-4">
+                <span className="text-xs">Sending OTP...</span>
+              </div>
+            )}
             <div className="text-center text-indigo-300 mt-4">
               <span className="text-xs">Don't get OTP, <button className="text-indigo-500 underline text-sm font-semibold cursor-pointer" onClick={handleResendOtp}>Resend</button></span>
             </div>
@@ -117,8 +137,12 @@ const Login = () => {
                 </div>
               ) : "Login"}
             </button>
+            <p className="text-center text-white mt-4">
+              <span className="text-xs">Don't have an account? <Link to="/register" className="text-indigo-500 underline text-sm font-semibold">Register</Link></span>
+            </p>
           </>
         )}
+
       </div>
     </div>
   )

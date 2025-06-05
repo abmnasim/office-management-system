@@ -22,6 +22,18 @@ const verifyOtp = async (email, otp) => {
     return response;
 }
 
+const register = async (name, email, password) => {
+    const response = await fetch('/api/v1/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    return response;
+}
+
 const login = async (email, password) => {
   try {
     const response = await fetch('/api/v1/auth/login', {
@@ -60,5 +72,5 @@ const logout = async () => {
 
     return response;
 }
-export { isAuthenticated, login, logout, resendOtp, verifyOtp };
+export { isAuthenticated, login, logout, register, resendOtp, verifyOtp };
 

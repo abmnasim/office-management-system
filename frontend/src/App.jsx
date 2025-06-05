@@ -9,7 +9,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
   return (
-    <AppRouter></AppRouter>
+    <AppRouter />
   )
 }
 
