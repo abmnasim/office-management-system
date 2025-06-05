@@ -1,12 +1,19 @@
 [
   {
-    "id": 1,
-    "name": "Alice",
-    "email": "alice@example.com"
-  },
-  {
-    "id": 2,
-    "name": "Bob",
-    "email": "bob@example.com"
+    "_id": "288dc1b1-247c-4782-9183-b9b5d3f8fe88",
+    "name": "A B M Nasim",
+    "email": "abmnasim@bansberrysg.com",
+    "password": "$2b$10$9WnK/IdFQgC7HQD8rhPdXuPCq1xWa2rG8HukW12EJho/NwGvdw9Li",
+    "otp": null,
+    "otpExpiry": null,
+    "verified": true,
+    "permissions": [
+      "read:projects",
+      "create:projects",
+      "update:projects",
+      "delete:projects"
+    ],
+    "createdAt": "2025-06-05T05:05:06.970Z",
+    "updatedAt": "2025-06-05T05:11:50.285Z"
   }
 ]

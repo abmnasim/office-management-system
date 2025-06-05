@@ -9,9 +9,9 @@ router.use(auth);
 
 router.get("/", hasPermission("read:projects"), fetchProjects);
 router.get("/own", hasPermission("read:projects"), fetchOwnProjects);
-router.get("/:id", hasPermission("read:projects"), fetchProjectById);
+router.get("/:_id", hasPermission("read:projects"), fetchProjectById);
 router.post("/", hasPermission("create:projects"), createProject);
-router.put("/:id", hasPermission("update:projects"), updateProject);
-router.delete("/:id", hasPermission("delete:projects"), deleteProject);
+router.put("/:_id", hasPermission("update:projects"), updateProject);
+router.delete("/:_id", hasPermission("delete:projects"), deleteProject);
 
 export default router;

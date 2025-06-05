@@ -1,4 +1,4 @@
-import { getUserById } from "../models/user.model";
+import { getUserById } from "../models/user.model.js";
 
 const hasPermission = (permission) => {
     return (req, res, next) => {

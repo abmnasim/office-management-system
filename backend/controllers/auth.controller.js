@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 as uuid } from 'uuid';
-import { getAllUsers, getUserByEmail, storeUser } from "../models/user.model";
+import { getAllUsers, getUserByEmail, storeUser } from "../models/user.model.js";
 
 /**
  * @desc Register a new user
@@ -49,7 +49,7 @@ const register = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     const otpExpiry = new Date();
-    otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); // OTP valid for 10 minutes
+    otpExpiry.setMinutes(otpExpiry.getMinutes() + 5); // OTP valid for 10 minutes
 
     const hashedPassword = bcrypt.hashSync(password, 10);
     const newUser = {
@@ -152,7 +152,7 @@ const verifyOtp = async (req, res) => {
         return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.otp !== otp) {
+    if (user.otp != otp) {
         return res.status(400).json({ message: "Invalid OTP" });
     }
 
@@ -161,6 +161,8 @@ const verifyOtp = async (req, res) => {
     }
 
     user.verified = true;
+    user.otp = null; // Clear OTP after verification
+    user.otpExpiry = null; // Clear OTP expiry after verification
     user.updatedAt = new Date();
 
     storeUser(user);

@@ -1,6 +1,6 @@
 import path, { dirname } from "path";
 import { fileURLToPath } from 'url';
-import { readData, writeData } from "../utils/file.manager.js";
+import { readData, removeData, writeData } from "../utils/file.manager.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,9 +21,7 @@ const getProjectById = (_id) => {
 }
 
 const removeProjectById = (_id) => {
-    const projects = getAllProjects();
-    const updatedProjects = projects.filter(project => project._id !== _id);
-    writeData(PROJECTS_FILE, updatedProjects);
+    removeData(PROJECTS_FILE, _id);
 }
 
 export { getAllProjects, getProjectById, removeProjectById, storeProject };

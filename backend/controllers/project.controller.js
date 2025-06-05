@@ -25,7 +25,7 @@ const fetchProjectById = async (req, res) => {
     const project = await getProjectById(_id);
     if (!project) {
         return res.status(404).json({
-            message: "Project not found"
+            message: "Project not found."
         });
     }
 
@@ -68,7 +68,7 @@ const createProject = async (req, res) => {
         updatedAt: new Date().toISOString()
     };
 
-    await storeProject(newProject);
+    storeProject(newProject);
     
     return res.status(201).json({
         message: "Project created successfully",
