@@ -1,16 +1,17 @@
 import express from 'express';
 import { createProject, deleteProject, fetchOwnProjects, fetchProjectById, fetchProjects, updateProject } from '../controllers/project.controller.js';
 import auth from '../middleware/auth.middleware.js';
+import hasPermission from '../middleware/permission.middleware.js';
 
 const router = express.Router();
 
 router.use(auth);
 
-router.get("/", fetchProjects);
-router.get("/own", fetchOwnProjects);
-router.get("/:id", fetchProjectById);
-router.post("/", createProject);
-router.put("/:id", updateProject);
-router.delete("/:id", deleteProject);
+router.get("/", hasPermission("read:projects"), fetchProjects);
+router.get("/own", hasPermission("read:projects"), fetchOwnProjects);
+router.get("/:id", hasPermission("read:projects"), fetchProjectById);
+router.post("/", hasPermission("create:projects"), createProject);
+router.put("/:id", hasPermission("update:projects"), updateProject);
+router.delete("/:id", hasPermission("delete:projects"), deleteProject);
 
 export default router;
