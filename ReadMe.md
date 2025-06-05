@@ -1,4 +1,4 @@
-_version: 0.0.1_
+_version: 0.0.2_
 
 # Backend
 
@@ -104,7 +104,7 @@ _version: 0.0.1_
 
 ### User
 
-```
+```JSON
 {
     "_id": "u123",
     "email": "user@example.com",
@@ -118,7 +118,7 @@ _version: 0.0.1_
 
 ### Project
 
-```
+```JSON
 {
     "_id": "u123",
     "name": "Weather App",
@@ -134,7 +134,7 @@ _version: 0.0.1_
 
 ### Analytics
 
-```
+```JSON
 {
     "_id": "u123",
     "projectId": "p001",
@@ -158,7 +158,7 @@ _version: 0.0.1_
 
 ### Subscription
 
-```
+```JSON
 {
     "_id": "s123",
     "projectId": "p001",
@@ -176,7 +176,7 @@ _version: 0.0.1_
 
 ### Ad Analytics
 
-```
+```JSON
 {
     "_id": "u123",
     "project_d": "p001",
